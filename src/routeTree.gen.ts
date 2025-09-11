@@ -18,6 +18,7 @@ import { Route as DemoStartServerFuncsRouteImport } from './routes/demo.start.se
 import { Route as DemoStartApiRequestRouteImport } from './routes/demo.start.api-request'
 import { ServerRoute as ApiDemoTqTodosServerRouteImport } from './routes/api.demo-tq-todos'
 import { ServerRoute as ApiDemoNamesServerRouteImport } from './routes/api.demo-names'
+import { ServerRoute as ApiImmichRandomPhotoServerRouteImport } from './routes/api.immich.randomPhoto'
 
 const rootServerRouteImport = createServerRootRoute()
 
@@ -56,6 +57,12 @@ const ApiDemoNamesServerRoute = ApiDemoNamesServerRouteImport.update({
   path: '/api/demo-names',
   getParentRoute: () => rootServerRouteImport,
 } as any)
+const ApiImmichRandomPhotoServerRoute =
+  ApiImmichRandomPhotoServerRouteImport.update({
+    id: '/api/immich/randomPhoto',
+    path: '/api/immich/randomPhoto',
+    getParentRoute: () => rootServerRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -113,27 +120,38 @@ export interface RootRouteChildren {
 export interface FileServerRoutesByFullPath {
   '/api/demo-names': typeof ApiDemoNamesServerRoute
   '/api/demo-tq-todos': typeof ApiDemoTqTodosServerRoute
+  '/api/immich/randomPhoto': typeof ApiImmichRandomPhotoServerRoute
 }
 export interface FileServerRoutesByTo {
   '/api/demo-names': typeof ApiDemoNamesServerRoute
   '/api/demo-tq-todos': typeof ApiDemoTqTodosServerRoute
+  '/api/immich/randomPhoto': typeof ApiImmichRandomPhotoServerRoute
 }
 export interface FileServerRoutesById {
   __root__: typeof rootServerRouteImport
   '/api/demo-names': typeof ApiDemoNamesServerRoute
   '/api/demo-tq-todos': typeof ApiDemoTqTodosServerRoute
+  '/api/immich/randomPhoto': typeof ApiImmichRandomPhotoServerRoute
 }
 export interface FileServerRouteTypes {
   fileServerRoutesByFullPath: FileServerRoutesByFullPath
-  fullPaths: '/api/demo-names' | '/api/demo-tq-todos'
+  fullPaths:
+    | '/api/demo-names'
+    | '/api/demo-tq-todos'
+    | '/api/immich/randomPhoto'
   fileServerRoutesByTo: FileServerRoutesByTo
-  to: '/api/demo-names' | '/api/demo-tq-todos'
-  id: '__root__' | '/api/demo-names' | '/api/demo-tq-todos'
+  to: '/api/demo-names' | '/api/demo-tq-todos' | '/api/immich/randomPhoto'
+  id:
+    | '__root__'
+    | '/api/demo-names'
+    | '/api/demo-tq-todos'
+    | '/api/immich/randomPhoto'
   fileServerRoutesById: FileServerRoutesById
 }
 export interface RootServerRouteChildren {
   ApiDemoNamesServerRoute: typeof ApiDemoNamesServerRoute
   ApiDemoTqTodosServerRoute: typeof ApiDemoTqTodosServerRoute
+  ApiImmichRandomPhotoServerRoute: typeof ApiImmichRandomPhotoServerRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -191,6 +209,13 @@ declare module '@tanstack/react-start/server' {
       preLoaderRoute: typeof ApiDemoNamesServerRouteImport
       parentRoute: typeof rootServerRouteImport
     }
+    '/api/immich/randomPhoto': {
+      id: '/api/immich/randomPhoto'
+      path: '/api/immich/randomPhoto'
+      fullPath: '/api/immich/randomPhoto'
+      preLoaderRoute: typeof ApiImmichRandomPhotoServerRouteImport
+      parentRoute: typeof rootServerRouteImport
+    }
   }
 }
 
@@ -207,6 +232,7 @@ export const routeTree = rootRouteImport
 const rootServerRouteChildren: RootServerRouteChildren = {
   ApiDemoNamesServerRoute: ApiDemoNamesServerRoute,
   ApiDemoTqTodosServerRoute: ApiDemoTqTodosServerRoute,
+  ApiImmichRandomPhotoServerRoute: ApiImmichRandomPhotoServerRoute,
 }
 export const serverRouteTree = rootServerRouteImport
   ._addFileChildren(rootServerRouteChildren)
