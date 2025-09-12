@@ -1,0 +1,50 @@
+import { z } from 'zod'
+import { FaceSchema } from './Face'
+
+export const AssetSchema = z.object({
+  id: z.string(),
+  originalPath: z.string(),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date(),
+  type: z.enum(['IMAGE', 'VIDEO']),
+  isFavorite: z.boolean(),
+  deviceId: z.string(),
+  deviceAssetId: z.string(),
+  ownerId: z.string(),
+  owner: z.object({}),
+  libraryId: z.string().nullable(),
+  originalFileName: z.string(),
+  originalMimeType: z.string(),
+  thumbhash: z.string(),
+  fileCreatedAt: z.coerce.date(),
+  fileModifiedAt: z.coerce.date(),
+  localDateTime: z.coerce.date(),
+  isArchived: z.boolean(),
+  isTrashed: z.boolean(),
+  duration: z.string(),
+  tags: z.array(z.object({}).strict()),
+  exifInfo: z.object({}),
+  livePhotoVideoId: z.string().nullable(),
+  isOffline: z.boolean(),
+  hasMetadata: z.boolean(),
+  resized: z.boolean(),
+  people: z.array(
+    z
+      .object({
+        id: z.string(),
+        name: z.string(),
+        birthDate: z.coerce.date(),
+        thumbnailPath: z.string(),
+        isHidden: z.boolean(),
+        isFavorite: z.boolean(),
+        updatedAt: z.coerce.date(),
+        faces: z.array(FaceSchema),
+      })
+      .strict(),
+  ),
+  checksum: z.string(),
+  visibility: z.enum(['timeline']),
+  unassignedFaces: z.array(FaceSchema),
+  duplicateId: z.string().nullable(),
+  stack: z.string().optional().nullable(),
+})

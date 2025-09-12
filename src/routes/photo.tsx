@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
+import { stringify } from 'yaml'
 
 export const Route = createFileRoute('/photo')({
   component: RouteComponent,
@@ -13,6 +14,7 @@ function RouteComponent() {
 
   const { data: asset } = useQuery({
     queryKey: ['asset', randomAsset?.id],
+    enabled: !!randomAsset?.id,
     queryFn: () =>
       fetch(`/api/immich/getAsset/${randomAsset?.id}`).then((res) =>
         res.json(),
@@ -20,18 +22,16 @@ function RouteComponent() {
   })
 
   return (
-    <div className="flex flex-row w-full gap-4">
+    <div className="flex flex-col w-full gap-4">
       <div className="flex-1">
         <img
           src={`/api/immich/viewAsset/${randomAsset?.id}`}
           alt="Asset"
-          className="w-full"
+          className="h-[800px] object-cover"
         />
       </div>
-      <div className="flex-1">
-        <code className="overflow-y-scroll">
-          {JSON.stringify(asset, null, 2)}
-        </code>
+      <div className="flex-2">
+        <pre className="overflow-y-scroll">{stringify(asset)}</pre>
       </div>
     </div>
   )
