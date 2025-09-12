@@ -1,3 +1,4 @@
+import { immichFetch } from '@/lib/immichApi'
 import { createServerFileRoute } from '@tanstack/react-start/server'
 
 interface Asset {
@@ -10,20 +11,10 @@ export const ServerRoute = createServerFileRoute(
   '/api/immich/randomPhoto',
 ).methods({
   GET: async () => {
-    const res = await fetch(
-      `${import.meta.env.VITE_IMMICH_HOST}/api/search/random`,
-      {
-        method: 'POST',
-        headers: {
-          'x-api-key': import.meta.env.VITE_IMMICH_API_KEY || '',
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify({
-          // type: 'IMAGE',
-        }),
-      },
-    )
+    const res = await immichFetch('/search/random', {
+      method: 'POST',
+      body: JSON.stringify({}),
+    })
 
     const assets = (await res.json()) as Asset[]
 
