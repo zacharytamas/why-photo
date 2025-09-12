@@ -1,6 +1,8 @@
 import { z } from 'zod'
 import { FaceSchema } from './Face'
 
+export type Asset = z.infer<typeof AssetSchema>
+
 export const AssetSchema = z.object({
   id: z.string(),
   originalPath: z.string(),
@@ -71,5 +73,5 @@ export const AssetSchema = z.object({
   visibility: z.enum(['timeline']),
   unassignedFaces: z.array(FaceSchema),
   duplicateId: z.string().nullable(),
-  stack: z.string().optional().nullable(),
+  stack: z.object({}).optional().nullable(),
 })
