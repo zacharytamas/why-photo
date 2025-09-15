@@ -7,6 +7,21 @@ export const ServerRoute = createServerFileRoute(
 ).methods({
   GET: async ({ params }) => {
     const res = await immichFetch(`/assets/${params.id}`)
+
+    if (!res.ok) {
+      if (res.status === 404) {
+        return new Response(JSON.stringify({ error: 'Asset not found' }), {
+          status: 404,
+          headers: { 'Content-Type': 'application/json' },
+        })
+      }
+
+      return new Response(JSON.stringify({ error: 'Could not get asset' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      })
+    }
+
     const rawJson = await res.json()
     const data = AssetSchema.strict().parse(rawJson)
 
