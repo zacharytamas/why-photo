@@ -1,5 +1,5 @@
 import { immichFetch } from '@/lib/immichApi'
-import { Asset, AssetSchema } from '@/models/immich/Asset'
+import { type Asset, AssetSchema } from '@/models/immich/Asset'
 import { createServerFileRoute } from '@tanstack/react-start/server'
 import ms from 'ms'
 

@@ -11,8 +11,9 @@
 import { createServerRootRoute } from '@tanstack/react-start/server'
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as PhotoRouteImport } from './routes/photo'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PhotoIndexRouteImport } from './routes/photo.index'
+import { Route as PhotoIdRouteImport } from './routes/photo.$id'
 import { Route as DemoTanstackQueryRouteImport } from './routes/demo.tanstack-query'
 import { Route as DemoStartServerFuncsRouteImport } from './routes/demo.start.server-funcs'
 import { Route as DemoStartApiRequestRouteImport } from './routes/demo.start.api-request'
@@ -25,14 +26,19 @@ import { ServerRoute as ApiImmichGetAssetIdServerRouteImport } from './routes/ap
 
 const rootServerRouteImport = createServerRootRoute()
 
-const PhotoRoute = PhotoRouteImport.update({
-  id: '/photo',
-  path: '/photo',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PhotoIndexRoute = PhotoIndexRouteImport.update({
+  id: '/photo/',
+  path: '/photo/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PhotoIdRoute = PhotoIdRouteImport.update({
+  id: '/photo/$id',
+  path: '/photo/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DemoTanstackQueryRoute = DemoTanstackQueryRouteImport.update({
@@ -87,23 +93,26 @@ const ApiImmichGetAssetIdServerRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/photo': typeof PhotoRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/photo/$id': typeof PhotoIdRoute
+  '/photo': typeof PhotoIndexRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/photo': typeof PhotoRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/photo/$id': typeof PhotoIdRoute
+  '/photo': typeof PhotoIndexRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/photo': typeof PhotoRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/photo/$id': typeof PhotoIdRoute
+  '/photo/': typeof PhotoIndexRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
 }
@@ -111,30 +120,34 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/photo'
     | '/demo/tanstack-query'
+    | '/photo/$id'
+    | '/photo'
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/photo'
     | '/demo/tanstack-query'
+    | '/photo/$id'
+    | '/photo'
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
   id:
     | '__root__'
     | '/'
-    | '/photo'
     | '/demo/tanstack-query'
+    | '/photo/$id'
+    | '/photo/'
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  PhotoRoute: typeof PhotoRoute
   DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
+  PhotoIdRoute: typeof PhotoIdRoute
+  PhotoIndexRoute: typeof PhotoIndexRoute
   DemoStartApiRequestRoute: typeof DemoStartApiRequestRoute
   DemoStartServerFuncsRoute: typeof DemoStartServerFuncsRoute
 }
@@ -201,18 +214,25 @@ export interface RootServerRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/photo': {
-      id: '/photo'
-      path: '/photo'
-      fullPath: '/photo'
-      preLoaderRoute: typeof PhotoRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/photo/': {
+      id: '/photo/'
+      path: '/photo'
+      fullPath: '/photo'
+      preLoaderRoute: typeof PhotoIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/photo/$id': {
+      id: '/photo/$id'
+      path: '/photo/$id'
+      fullPath: '/photo/$id'
+      preLoaderRoute: typeof PhotoIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/demo/tanstack-query': {
@@ -287,8 +307,9 @@ declare module '@tanstack/react-start/server' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  PhotoRoute: PhotoRoute,
   DemoTanstackQueryRoute: DemoTanstackQueryRoute,
+  PhotoIdRoute: PhotoIdRoute,
+  PhotoIndexRoute: PhotoIndexRoute,
   DemoStartApiRequestRoute: DemoStartApiRequestRoute,
   DemoStartServerFuncsRoute: DemoStartServerFuncsRoute,
 }
