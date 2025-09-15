@@ -1,4 +1,5 @@
 import { TanstackDevtools } from '@tanstack/react-devtools'
+import type { QueryClient } from '@tanstack/react-query'
 import {
   HeadContent,
   Scripts,
@@ -6,15 +7,14 @@ import {
 } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 
-import Header from '../components/Header'
-
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 
 import { ConfigProvider } from '../contexts/ConfigContext'
 
 import appCss from '../styles.css?url'
 
-import type { QueryClient } from '@tanstack/react-query'
+import { AppSidebar } from '@/components/AppSidebar'
+import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 
 interface MyRouterContext {
   queryClient: QueryClient
@@ -41,21 +41,23 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <ConfigProvider>
-          <Header />
-          {children}
-          <TanstackDevtools
-            config={{
-              position: 'bottom-left',
-            }}
-            plugins={[
-              {
-                name: 'Tanstack Router',
-                render: <TanStackRouterDevtoolsPanel />,
-              },
-              TanStackQueryDevtools,
-            ]}
-          />
+          <SidebarProvider>
+            <AppSidebar />
+            <SidebarInset>{children}</SidebarInset>
+          </SidebarProvider>
         </ConfigProvider>
+        <TanstackDevtools
+          config={{
+            position: 'bottom-left',
+          }}
+          plugins={[
+            {
+              name: 'Tanstack Router',
+              render: <TanStackRouterDevtoolsPanel />,
+            },
+            TanStackQueryDevtools,
+          ]}
+        />
         <Scripts />
       </body>
     </html>

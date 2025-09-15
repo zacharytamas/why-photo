@@ -10,7 +10,11 @@ export const Route = createFileRoute('/photo/$id')({
 function RouteComponent() {
   const { id } = Route.useParams()
 
-  const { data: asset, error } = useQuery({
+  const {
+    data: asset,
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: ['asset', id],
     queryFn: () =>
       fetch(`/api/immich/getAsset/${id}`).then((res) => {
@@ -43,22 +47,27 @@ function RouteComponent() {
     )
   }
 
+  const nearbyPhotosGrid = (
+    <div className="flex flex-wrap gap-2">
+      {nearbyPhotos?.map((photo: Asset) => (
+        <PhotoThumbnail key={photo.id} photo={photo} />
+      ))}
+    </div>
+  )
+
   return (
-    <div className="flex w-full gap-4">
-      <div className="flex-1">
+    <main className="flex flex-1 gap-4 p-4">
+      <div className="flex-1 flex ">
         <img
           src={`/api/immich/viewAsset/${id}`}
           alt="Asset"
-          className="h-[800px] object-cover"
+          className="object-scale-down w-full aspect-square"
         />
       </div>
-      <div className="flex-1">
-        <div className="grid grid-cols-3 gap-2">
-          {nearbyPhotos?.map((photo: Asset) => (
-            <PhotoThumbnail key={photo.id} photo={photo} />
-          ))}
-        </div>
+      <div className="flex flex-col flex-1 gap-4">
+        <div className="overflow-y-auto flex-1">{nearbyPhotosGrid}</div>
+        <div className="flex-2">Composer</div>
       </div>
-    </div>
+    </main>
   )
 }
