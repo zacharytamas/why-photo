@@ -1,6 +1,6 @@
-import { PhotoThumbnail } from '@/components/PhotoThumbnail'
 import type { Asset } from '@/models/immich/Asset'
 import { useQuery } from '@tanstack/react-query'
+import { ThumbnailGrid } from '@/components/ThumbnailGrid'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/photo/$id')({
@@ -47,14 +47,6 @@ function RouteComponent() {
     )
   }
 
-  const nearbyPhotosGrid = (
-    <div className="flex flex-wrap gap-2">
-      {nearbyPhotos?.map((photo: Asset) => (
-        <PhotoThumbnail key={photo.id} photo={photo} />
-      ))}
-    </div>
-  )
-
   return (
     <main className="flex flex-1 gap-4 p-4">
       <div className="flex-1 flex ">
@@ -65,7 +57,9 @@ function RouteComponent() {
         />
       </div>
       <div className="flex flex-col flex-1 gap-4">
-        <div className="overflow-y-auto flex-1">{nearbyPhotosGrid}</div>
+        <div className="overflow-y-auto flex-1">
+          {<ThumbnailGrid photos={nearbyPhotos} />}
+        </div>
         <div className="flex-2">Composer</div>
       </div>
     </main>
