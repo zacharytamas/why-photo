@@ -1,7 +1,7 @@
-import type { Asset } from '@/models/immich/Asset'
-import { useQuery } from '@tanstack/react-query'
 import { ThumbnailGrid } from '@/components/ThumbnailGrid'
+import { useAssetWithNearby } from '@/hooks/useAssetWithNearby'
 import { createFileRoute } from '@tanstack/react-router'
+import { Loader2 } from 'lucide-react'
 
 export const Route = createFileRoute('/photo/$id')({
   component: RouteComponent,
@@ -10,27 +10,7 @@ export const Route = createFileRoute('/photo/$id')({
 function RouteComponent() {
   const { id } = Route.useParams()
 
-  const {
-    data: asset,
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: ['asset', id],
-    queryFn: () =>
-      fetch(`/api/immich/getAsset/${id}`).then((res) => {
-        if (!res.ok) {
-          throw new Error('Asset not found')
-        }
-        return res.json()
-      }),
-  })
-
-  const { data: nearbyPhotos } = useQuery({
-    queryKey: ['nearbyPhotos', id],
-    enabled: !!asset,
-    queryFn: () =>
-      fetch(`/api/immich/nearbyPhotos/${id}`).then((res) => res.json()),
-  })
+  const { asset, nearbyPhotos, error, isLoading } = useAssetWithNearby(id)
 
   if (error) {
     return (
@@ -49,12 +29,18 @@ function RouteComponent() {
 
   return (
     <main className="flex flex-1 gap-4 p-4">
-      <div className="flex-1 flex ">
-        <img
-          src={`/api/immich/viewAsset/${id}`}
-          alt="Asset"
-          className="object-scale-down w-full aspect-square"
-        />
+      <div className="flex-1 flex">
+        {isLoading ? (
+          <div className="flex items-center justify-center w-full h-full">
+            <Loader2 className="w-32 animate-spin" />
+          </div>
+        ) : (
+          <img
+            src={`/api/immich/viewAsset/${id}`}
+            alt="Asset"
+            className="object-scale-down w-full aspect-square"
+          />
+        )}
       </div>
       <div className="flex flex-col flex-1 gap-4">
         <div className="overflow-y-auto flex-1">
