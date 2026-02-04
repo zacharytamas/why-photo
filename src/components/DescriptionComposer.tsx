@@ -16,6 +16,7 @@ export function DescriptionComposer({
   assetId,
   initialDescription,
 }: DescriptionComposerProps) {
+  const errorMessage = 'Could not update description.'
   const [value, setValue] = useState(initialDescription ?? '')
   const [isSaving, setIsSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -43,12 +44,12 @@ export function DescriptionComposer({
       )
 
       if (!response.ok) {
-        setError('Could not update description.')
+        setError(errorMessage)
       } else {
         await response.json()
       }
     } catch {
-      setError('Could not update description.')
+      setError(errorMessage)
     } finally {
       setIsSaving(false)
     }
