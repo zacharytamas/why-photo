@@ -1,3 +1,4 @@
+import { DescriptionComposer } from '@/components/DescriptionComposer'
 import { ThumbnailGrid } from '@/components/ThumbnailGrid'
 import { useAssetWithNearby } from '@/hooks/useAssetWithNearby'
 import { useQuery } from '@tanstack/react-query'
@@ -51,7 +52,12 @@ function RouteComponent() {
         <div className="overflow-y-auto flex-1">
           {<ThumbnailGrid photos={nearbyPhotos} />}
         </div>
-        <div className="flex-2">Composer</div>
+        <div className="flex-2">
+          <DescriptionComposer
+            assetId={asset?.id}
+            initialDescription={asset?.exifInfo?.description}
+          />
+        </div>
       </div>
     </main>
   )

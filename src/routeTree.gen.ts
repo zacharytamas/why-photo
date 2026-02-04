@@ -21,6 +21,7 @@ import { ServerRoute as ApiDemoTqTodosServerRouteImport } from './routes/api.dem
 import { ServerRoute as ApiDemoNamesServerRouteImport } from './routes/api.demo-names'
 import { ServerRoute as ApiImmichRandomPhotoServerRouteImport } from './routes/api.immich.randomPhoto'
 import { ServerRoute as ApiImmichViewAssetIdServerRouteImport } from './routes/api.immich.viewAsset.$id'
+import { ServerRoute as ApiImmichUpdateAssetDescriptionIdServerRouteImport } from './routes/api.immich.updateAssetDescription.$id'
 import { ServerRoute as ApiImmichNearbyPhotosIdServerRouteImport } from './routes/api.immich.nearbyPhotos.$id'
 import { ServerRoute as ApiImmichGetAssetIdServerRouteImport } from './routes/api.immich.getAsset.$id'
 
@@ -76,6 +77,12 @@ const ApiImmichViewAssetIdServerRoute =
   ApiImmichViewAssetIdServerRouteImport.update({
     id: '/api/immich/viewAsset/$id',
     path: '/api/immich/viewAsset/$id',
+    getParentRoute: () => rootServerRouteImport,
+  } as any)
+const ApiImmichUpdateAssetDescriptionIdServerRoute =
+  ApiImmichUpdateAssetDescriptionIdServerRouteImport.update({
+    id: '/api/immich/updateAssetDescription/$id',
+    path: '/api/immich/updateAssetDescription/$id',
     getParentRoute: () => rootServerRouteImport,
   } as any)
 const ApiImmichNearbyPhotosIdServerRoute =
@@ -157,6 +164,7 @@ export interface FileServerRoutesByFullPath {
   '/api/immich/randomPhoto': typeof ApiImmichRandomPhotoServerRoute
   '/api/immich/getAsset/$id': typeof ApiImmichGetAssetIdServerRoute
   '/api/immich/nearbyPhotos/$id': typeof ApiImmichNearbyPhotosIdServerRoute
+  '/api/immich/updateAssetDescription/$id': typeof ApiImmichUpdateAssetDescriptionIdServerRoute
   '/api/immich/viewAsset/$id': typeof ApiImmichViewAssetIdServerRoute
 }
 export interface FileServerRoutesByTo {
@@ -165,6 +173,7 @@ export interface FileServerRoutesByTo {
   '/api/immich/randomPhoto': typeof ApiImmichRandomPhotoServerRoute
   '/api/immich/getAsset/$id': typeof ApiImmichGetAssetIdServerRoute
   '/api/immich/nearbyPhotos/$id': typeof ApiImmichNearbyPhotosIdServerRoute
+  '/api/immich/updateAssetDescription/$id': typeof ApiImmichUpdateAssetDescriptionIdServerRoute
   '/api/immich/viewAsset/$id': typeof ApiImmichViewAssetIdServerRoute
 }
 export interface FileServerRoutesById {
@@ -174,6 +183,7 @@ export interface FileServerRoutesById {
   '/api/immich/randomPhoto': typeof ApiImmichRandomPhotoServerRoute
   '/api/immich/getAsset/$id': typeof ApiImmichGetAssetIdServerRoute
   '/api/immich/nearbyPhotos/$id': typeof ApiImmichNearbyPhotosIdServerRoute
+  '/api/immich/updateAssetDescription/$id': typeof ApiImmichUpdateAssetDescriptionIdServerRoute
   '/api/immich/viewAsset/$id': typeof ApiImmichViewAssetIdServerRoute
 }
 export interface FileServerRouteTypes {
@@ -184,6 +194,7 @@ export interface FileServerRouteTypes {
     | '/api/immich/randomPhoto'
     | '/api/immich/getAsset/$id'
     | '/api/immich/nearbyPhotos/$id'
+    | '/api/immich/updateAssetDescription/$id'
     | '/api/immich/viewAsset/$id'
   fileServerRoutesByTo: FileServerRoutesByTo
   to:
@@ -192,6 +203,7 @@ export interface FileServerRouteTypes {
     | '/api/immich/randomPhoto'
     | '/api/immich/getAsset/$id'
     | '/api/immich/nearbyPhotos/$id'
+    | '/api/immich/updateAssetDescription/$id'
     | '/api/immich/viewAsset/$id'
   id:
     | '__root__'
@@ -200,6 +212,7 @@ export interface FileServerRouteTypes {
     | '/api/immich/randomPhoto'
     | '/api/immich/getAsset/$id'
     | '/api/immich/nearbyPhotos/$id'
+    | '/api/immich/updateAssetDescription/$id'
     | '/api/immich/viewAsset/$id'
   fileServerRoutesById: FileServerRoutesById
 }
@@ -209,6 +222,7 @@ export interface RootServerRouteChildren {
   ApiImmichRandomPhotoServerRoute: typeof ApiImmichRandomPhotoServerRoute
   ApiImmichGetAssetIdServerRoute: typeof ApiImmichGetAssetIdServerRoute
   ApiImmichNearbyPhotosIdServerRoute: typeof ApiImmichNearbyPhotosIdServerRoute
+  ApiImmichUpdateAssetDescriptionIdServerRoute: typeof ApiImmichUpdateAssetDescriptionIdServerRoute
   ApiImmichViewAssetIdServerRoute: typeof ApiImmichViewAssetIdServerRoute
 }
 
@@ -288,6 +302,13 @@ declare module '@tanstack/react-start/server' {
       preLoaderRoute: typeof ApiImmichViewAssetIdServerRouteImport
       parentRoute: typeof rootServerRouteImport
     }
+    '/api/immich/updateAssetDescription/$id': {
+      id: '/api/immich/updateAssetDescription/$id'
+      path: '/api/immich/updateAssetDescription/$id'
+      fullPath: '/api/immich/updateAssetDescription/$id'
+      preLoaderRoute: typeof ApiImmichUpdateAssetDescriptionIdServerRouteImport
+      parentRoute: typeof rootServerRouteImport
+    }
     '/api/immich/nearbyPhotos/$id': {
       id: '/api/immich/nearbyPhotos/$id'
       path: '/api/immich/nearbyPhotos/$id'
@@ -322,6 +343,8 @@ const rootServerRouteChildren: RootServerRouteChildren = {
   ApiImmichRandomPhotoServerRoute: ApiImmichRandomPhotoServerRoute,
   ApiImmichGetAssetIdServerRoute: ApiImmichGetAssetIdServerRoute,
   ApiImmichNearbyPhotosIdServerRoute: ApiImmichNearbyPhotosIdServerRoute,
+  ApiImmichUpdateAssetDescriptionIdServerRoute:
+    ApiImmichUpdateAssetDescriptionIdServerRoute,
   ApiImmichViewAssetIdServerRoute: ApiImmichViewAssetIdServerRoute,
 }
 export const serverRouteTree = rootServerRouteImport
